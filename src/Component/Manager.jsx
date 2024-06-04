@@ -106,12 +106,14 @@ const Manager = () => {
         setForm({ site: "", username: "", password: "" })
     };
 
-    const deletePassword = (id) => {
+    const deletePassword = async(id) => {
         let check = window.confirm("Do you really want to delete password??")
         if (check) {
             const updatedPasswords = passwordArray.filter(item => item.id !== id);
             setPasswordArray(updatedPasswords);
-            localStorage.setItem("passwords", JSON.stringify(updatedPasswords));
+            //localStorage.setItem("passwords", JSON.stringify(updatedPasswords));
+            let res= await fetch("https://localhost:3000/",{method:"DELETE", headers: {"Content-Type":"application/json"},
+        body: JSON.stringify({...form,id})})
             toast('Password deleted successfully!!', {
                 position: "top-right",
                 autoClose: 5000,
